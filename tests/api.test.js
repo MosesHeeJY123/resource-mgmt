@@ -27,4 +27,16 @@ describe('Resource Management API', () => {
         // Store the resource ID for later tests (edit, delete)
         resourceId = res.body[res.body.length - 1].id;
     });
+
+        // Test case to verify that all resources can be retrieved
+    it('GET /view-resources should return resources', async () => {
+        // Send a GET request to retrieve all resources
+        const res = await request(app).get('/view-resources');
+
+        // Verify that the response status code is 200 (OK)
+        expect(res.status).toBe(200);
+
+        // Check that the previously added resource appears in the list
+        expect(res.body.some(r => r.id === resourceId)).toBe(true);
+    });
 });
