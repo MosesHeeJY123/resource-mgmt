@@ -39,4 +39,24 @@ describe('Resource Management API', () => {
         // Check that the previously added resource appears in the list
         expect(res.body.some(r => r.id === resourceId)).toBe(true);
     });
+
+    // Test case to verify that an existing resource can be updated
+it('PUT /edit-resource/:id should update resource', async () => {
+    // Define the updated data for the resource
+    const updated = {
+        name: 'API Updated',
+        location: 'Loc',
+        description: 'Desc',
+        owner: 'api@test.com'
+    };
+
+    // Send a PUT request to update the resource by ID
+    const res = await request(app).put(`/edit-resource/${resourceId}`).send(updated);
+
+    // Check that the response returned a 200 (OK) status
+    expect(res.status).toBe(200);
+
+    // Verify that the resource's name was updated successfully
+    expect(res.body.resource.name).toBe('API Updated');
+});
 });
