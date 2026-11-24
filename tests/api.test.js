@@ -59,4 +59,19 @@ it('PUT /edit-resource/:id should update resource', async () => {
     // Verify that the resource's name was updated successfully
     expect(res.body.resource.name).toBe('API Updated');
 });
+
+// Test case to verify that a resource can be deleted successfully
+it('DELETE /delete-resource/:id should remove resource', async () => {
+    // Send a DELETE request to remove the resource by ID
+    const res = await request(app).delete(`/delete-resource/${resourceId}`);
+
+    // Confirm the API returned a 200 (OK) status
+    expect(res.status).toBe(200);
+
+    // Send another GET request to confirm the resource has been removed
+    const getRes = await request(app).get('/view-resources');
+
+    // Verify that the deleted resource no longer exists in the list
+    expect(getRes.body.some(r => r.id === resourceId)).toBe(false);
+});
 });
